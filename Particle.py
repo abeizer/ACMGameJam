@@ -19,14 +19,23 @@ class Particle:
         self.radius = 20
         self.movable = movable
         self.partner = partner
+        self.yVelocity = 0
+        self.xVelocity = 0
 
     #attempts to move the Particle
     #also moves the partnered Particle if one exists
-    def move(self, x, y):
-        self.xpos += x
-        self.ypos += y
+    #NOTE: Assumes a one-way partnership. Two-way partnerships will cause an infinite loop
+    def move(self):
+        self.xpos += self.xVelocity
+        self.ypos += self.yVelocity
         if self.partner:
-            self.partner.move(x, y)
+            self.partner.changeVelocity(self.xVelocity, self.yVelocity)
+            self.partner.move()
+
+    #Straight up just changes the velocity
+    def changeVelocity(self, xV, yV):
+        self.xVelocity = xV
+        self.yVelocity = yV
 
     #If the Particle is movable, redraws the Particle at its current location after it has moved
     def draw(self, gameDisplay):

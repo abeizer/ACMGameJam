@@ -4,8 +4,8 @@ import pygame, Particle, Player, Goal, Wall, os
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
 BLUE =  (  0,   0, 255)
-GREEN = (  0, 255,   0)
 RED =   (255,   0,   0)
+GREEN = (  0, 255,   0)
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'  #centers the application window in the middle of the screen on startup
 pygame.init()
