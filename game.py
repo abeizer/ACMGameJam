@@ -1,4 +1,4 @@
-import pygame, Particle, Player,Goal
+import pygame, Particle, Player,Goal, os
 
 #define colors vusing RGB values
 BLACK = (  0,   0,   0)
@@ -7,10 +7,11 @@ BLUE =  (  0,   0, 255)
 GREEN = (  0, 255,   0)
 RED =   (255,   0,   0)
 
+os.environ['SDL_VIDEO_CENTERED'] = '1'  #centers the application window in the middle of the screen on startup
 pygame.init()
 
 #initialize the screen to size 800 x 600
-gameDisplay = pygame.display.set_mode((800, 600))
+gameDisplay = pygame.display.set_mode((1280, 1000))
 
 #creates the Player character in the location 20, 20
 player = Player.Player(20 , 20)
