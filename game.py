@@ -11,7 +11,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'  #centers the application window in the m
 pygame.init()
 
 #initialize the screen to size 800 x 600
-gameDisplay = pygame.display.set_mode((1000, 1000))
+gameDisplay = pygame.display.set_mode((800, 600))
 
 #creates the Player character in the location 20, 20
 player = Player.Player(30, 30)
@@ -47,35 +47,28 @@ while not gameExit:
         #Sets behaviors for when keys are pressed
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w or event.key == pygame.K_UP:
-                player.up = True
+                player.up()
             elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                player.down = True
+                player.down()
             if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                player.left = True
+                player.left()
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                player.right = True
+                player.right()
 
         #Sets behaviors for when keys are no longer pressed
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_w or event.key == pygame.K_UP:
-                player.up = False
+                player.down()
             elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                player.down = False
+                player.up()
             if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                player.left = False
+                player.right()
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                player.right = False
+                player.left()
     #end for loop
 
     #Moves the player, modified by the Player's movement speed
-    if player.up == True:
-        player.move(0, -player.speed)
-    elif player.down == True:
-        player.move(0, player.speed)
-    if player.left == True:
-        player.move(-player.speed, 0)
-    elif player.right == True:
-        player.move(player.speed, 0)
+    player.move()
 
     #Behavior for when the player collides with a collidable object
     for object in collidableObjects:
