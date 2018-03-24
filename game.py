@@ -1,4 +1,4 @@
-import pygame, Particle, Player,Goal, os
+import pygame, Particle, Player, Goal, Wall, os
 
 #define colors vusing RGB values
 BLACK = (  0,   0,   0)
@@ -11,10 +11,10 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'  #centers the application window in the m
 pygame.init()
 
 #initialize the screen to size 800 x 600
-gameDisplay = pygame.display.set_mode((800, 600))
+gameDisplay = pygame.display.set_mode((1000, 1000))
 
 #creates the Player character in the location 20, 20
-player = Player.Player(20 , 20)
+player = Player.Player(30, 30)
 
 #Defines the starting positions of the first two Particles for level 1 of the game
 particle1 = Particle.Particle(100, 100, False, None)
@@ -23,8 +23,16 @@ particle2 = Particle.Particle(100, 200, True, particle1) #Particle 2 is entangle
 #Defines the position for the first goal for level 1 of the game
 goal = Goal.Goal(400, 400)
 
+#NOTE: Negative numbers in wall declarations ruin collision detection
+leftWall = Wall.Wall(0, 0, 20, 600)
+rightWall = Wall.Wall(780, 0, 20, 600)
+topWall = Wall.Wall(0, 0, 800, 20)
+bottomWall = Wall.Wall(0, 580, 800, 20)
+
+
+
 #Defines the objects that the Player character cannot pass through
-collidableObjects = [particle1, particle2]
+collidableObjects = [particle1, particle2, leftWall, rightWall, topWall, bottomWall]
 
 
 gameExit = False
@@ -109,6 +117,11 @@ while not gameExit:
     player.draw(gameDisplay)
     particle1.draw(gameDisplay)
     particle2.draw(gameDisplay)
+
+    leftWall.draw(gameDisplay)
+    rightWall.draw(gameDisplay)
+    topWall.draw(gameDisplay)
+    bottomWall.draw(gameDisplay)
 
     pygame.display.update()
 #end while loop
