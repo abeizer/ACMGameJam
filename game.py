@@ -29,36 +29,50 @@ collidableObjects = [particle1, particle2]
 gameExit = False
 while not gameExit:
     gameDisplay.fill(BLACK) #The background color is black
-    for event in pygame.event.get():
+    for event in pygame.event.get():    #returns true if a keypress occurs
+
+        #Sets the condition for quitting the game (Clicking the x in top right corner of application)
         if event.type == pygame.QUIT:
             gameExit = True
+
+        #Sets behaviors for when keys are pressed
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_w:
+            if event.key == pygame.K_w or event.key == pygame.K_UP:
                 player.up = True
-            elif event.key == pygame.K_s:
+            elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
                 player.down = True
-            if event.key == pygame.K_a:
+            if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 player.left = True
-            elif event.key == pygame.K_d:
+            elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 player.right = True
+
+        #Sets behaviors for when keys are no longer pressed
         if event.type == pygame.KEYUP:
-            if event.key == pygame.K_w:
+            if event.key == pygame.K_w or event.key == pygame.K_UP:
                 player.up = False
-            elif event.key == pygame.K_s:
+            elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
                 player.down = False
-            if event.key == pygame.K_a:
+            if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 player.left = False
-            elif event.key == pygame.K_d:
+            elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 player.right = False
+    #end for loop
+
+    #Moves the player, modified by the Player's movement speed
     if player.up == True:
-        player.move(0,-player.speed)
+        player.move(0, -player.speed)
     elif player.down == True:
-        player.move(0,player.speed)
+        player.move(0, player.speed)
     if player.left == True:
-        player.move(-player.speed,0)
+        player.move(-player.speed, 0)
     elif player.right == True:
-        player.move(player.speed,0)
+        player.move(player.speed, 0)
+
+    #Behavior for when the player collides with a collidable object
     for object in collidableObjects:
+
+        #If the collidable object is also movable, move the collidable object in the same direction
+        #that the Player is moving
         if(player.isColliding(object.getCollider()) and object.movable):
             if player.up == True:
                 object.move(0, -player.speed)
@@ -68,6 +82,9 @@ while not gameExit:
                 object.move(-player.speed, 0)
             elif player.right == True:
                 object.move(player.speed, 0)
+
+        #If the collidable object is not movable, the player attempts to move, but the collidable
+        #object will not move
         elif(player.isColliding(object.getCollider())):
             if player.up == True:
                 player.move(0, player.speed)
@@ -77,17 +94,22 @@ while not gameExit:
                 player.move(player.speed, 0)
             elif player.right == True:
                 player.move(-player.speed, 0)
+        #end inner for loop
+     #end outer for loop
+
+    #When the goal and target Particle have collided, the player has passed the level
+    #so display a win message
     if goal.isColliding(particle1.getCollider()):
         font = pygame.font.SysFont("comicsansms", 72)
         text = font.render("Win", True, (0, 128, 0))
-        gameDisplay.blit(text,(320 - text.get_width() // 2, 240 - text.get_height() // 2))
+        gameDisplay.blit(text, (320 - text.get_width() // 2, 240 - text.get_height() // 2))
+    #render any changes to the display
     goal.draw(gameDisplay)
     player.draw(gameDisplay)
     particle1.draw(gameDisplay)
     particle2.draw(gameDisplay)
 
-
     pygame.display.update()
-
+#end while loop
 pygame.quit()
 quit()
