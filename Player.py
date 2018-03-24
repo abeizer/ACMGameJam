@@ -12,16 +12,9 @@ class Player():
 
     # defines the starting position and size of the Player character
     def __init__(self, x, y):
-        # TODO: What do these do?
-        self.speed = 1
-        self.thickness = 10
-        self.up = False
-        self.down = False
-        self.left = False
-        self.right = False
-        self.gain = 10
-        # end TODO
-
+        self.speed = .5
+        self.xVelocity = 0
+        self.yVelocity = 0
         self.x = x
         self.y = y
         self.width = 20
@@ -31,10 +24,34 @@ class Player():
     def draw(self, gameDisplay):
         pygame.draw.rect(gameDisplay, WHITE, [self.x, self.y, self.width, self.height])
 
-    # Moves the player
-    def move(self, xmove, ymove):
-        self.y += ymove  # add linear interpolation
-        self.x += xmove
+    #Moves the player based on its velocity
+    def move(self):
+        self.y += self.yVelocity
+        self.x += self.xVelocity
+
+    #Straight up just changes the velocity
+    def changeVelocity(self, xV, yV):
+        self.xVelocity = xV
+        self.yVelocity = yV
+
+    #This set of methods changes the Player velocity to move in a direction
+    def up(self):
+        self.changeVelocity(self.xVelocity, self.yVelocity - self.speed)
+
+    def down(self):
+        self.changeVelocity(self.xVelocity, self.yVelocity + self.speed)
+
+    def right(self):
+        self.changeVelocity(self.xVelocity + self.speed, self.yVelocity)
+
+    def left(self):
+        self.changeVelocity(self.xVelocity - self.speed, self.yVelocity)
+
+    def stop_x_movement(self):
+        self.changeVelocity(0, self.yVelocity)
+
+    def stop_y_movement(self):
+        self.changeVelocity(self.xVelocity, 0)
 
     # TODO: Please explain
     def isColliding(self, corners):

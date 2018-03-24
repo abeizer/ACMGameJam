@@ -1,5 +1,5 @@
-import pygame, Particle, Player, Goal, os
-#from Scenes import *
+from Scenes import *
+import pygame, Particle, Player, Goal, Wall, os
 
 #define colors vusing RGB values
 BLACK = (  0,   0,   0)
@@ -15,7 +15,7 @@ pygame.init()
 gameDisplay = pygame.display.set_mode((800, 600))
 
 #creates the Player character in the location 20, 20
-player = Player.Player(20 , 20)
+player = Player.Player(30, 30)
 
 #Defines the starting positions of the first two Particles for level 1 of the game
 particle1 = Particle.Particle(100, 100, False, None)
@@ -24,8 +24,16 @@ particle2 = Particle.Particle(100, 200, True, particle1) #Particle 2 is entangle
 #Defines the position for the first goal for level 1 of the game
 goal = Goal.Goal(400, 400)
 
+#NOTE: Negative numbers in wall declarations ruin collision detection
+leftWall = Wall.Wall(0, 0, 20, 600)
+rightWall = Wall.Wall(780, 0, 20, 600)
+topWall = Wall.Wall(0, 0, 800, 20)
+bottomWall = Wall.Wall(0, 580, 800, 20)
+
+
+
 #Defines the objects that the Player character cannot pass through
-collidableObjects = [particle1, particle2]
+collidableObjects = [particle1, particle2, leftWall, rightWall, topWall, bottomWall]
 
 
 gameExit = False
@@ -40,35 +48,28 @@ while not gameExit:
         #Sets behaviors for when keys are pressed
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w or event.key == pygame.K_UP:
-                player.up = True
+                player.up()
             elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                player.down = True
+                player.down()
             if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                player.left = True
+                player.left()
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                player.right = True
+                player.right()
 
         #Sets behaviors for when keys are no longer pressed
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_w or event.key == pygame.K_UP:
-                player.up = False
+                player.down()
             elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                player.down = False
+                player.up()
             if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                player.left = False
+                player.right()
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                player.right = False
+                player.left()
     #end for loop
 
     #Moves the player, modified by the Player's movement speed
-    if player.up == True:
-        player.move(0, -player.speed)
-    elif player.down == True:
-        player.move(0, player.speed)
-    if player.left == True:
-        player.move(-player.speed, 0)
-    elif player.right == True:
-        player.move(player.speed, 0)
+    player.move()
 
     #Behavior for when the player collides with a collidable object
     for object in collidableObjects:
@@ -110,6 +111,11 @@ while not gameExit:
     player.draw(gameDisplay)
     particle1.draw(gameDisplay)
     particle2.draw(gameDisplay)
+
+    leftWall.draw(gameDisplay)
+    rightWall.draw(gameDisplay)
+    topWall.draw(gameDisplay)
+    bottomWall.draw(gameDisplay)
 
     pygame.display.update()
 #end while loop
