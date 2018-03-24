@@ -10,7 +10,7 @@ RED =   (255,   0,   0)
 
 class Player():
 
-    #defines the starting position and size of the Player character
+    # defines the starting position and size of the Player character
     def __init__(self, x, y):
         self.speed = .5
         self.xVelocity = 0
@@ -20,8 +20,7 @@ class Player():
         self.width = 20
         self.height = 20
 
-
-    #draws the player character at its current position using
+    # draws the player character at its current position using
     def draw(self, gameDisplay):
         pygame.draw.rect(gameDisplay, WHITE, [self.x, self.y, self.width, self.height])
 
@@ -53,10 +52,8 @@ class Player():
 
     def stop_y_movement(self):
         self.changeVelocity(self.xVelocity, 0)
-    ##
 
-
-    #TODO: Please explain
+    # TODO: Please explain
     def isColliding(self, corners):
         x1 = self.x
         y1 = self.y
