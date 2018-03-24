@@ -11,7 +11,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'  #centers the application window in the m
 pygame.init()
 
 #initialize the screen to size 800 x 600
-gameDisplay = pygame.display.set_mode((1280, 1000))
+gameDisplay = pygame.display.set_mode((800, 600))
 
 #creates the Player character in the location 20, 20
 player = Player.Player(20 , 20)
