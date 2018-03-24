@@ -1,4 +1,5 @@
-import pygame, Particle, Player,Goal, os
+import pygame, Particle, Player, Goal, os
+#from Scenes import *
 
 #define colors vusing RGB values
 BLACK = (  0,   0,   0)

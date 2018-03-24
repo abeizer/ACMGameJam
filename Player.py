@@ -10,34 +10,33 @@ RED =   (255,   0,   0)
 
 class Player():
 
-    #defines the starting position and size of the Player character
+    # defines the starting position and size of the Player character
     def __init__(self, x, y):
-        #TODO: What do these do?
-        self.speed = .5
+        # TODO: What do these do?
+        self.speed = 1
         self.thickness = 10
         self.up = False
         self.down = False
         self.left = False
         self.right = False
         self.gain = 10
-        #end TODO
+        # end TODO
 
         self.x = x
         self.y = y
         self.width = 20
         self.height = 20
 
-
-    #draws the player character at its current position using
+    # draws the player character at its current position using
     def draw(self, gameDisplay):
         pygame.draw.rect(gameDisplay, WHITE, [self.x, self.y, self.width, self.height])
 
-    #Moves the player
+    # Moves the player
     def move(self, xmove, ymove):
-        self.y += ymove
+        self.y += ymove  # add linear interpolation
         self.x += xmove
 
-    #TODO: Please explain
+    # TODO: Please explain
     def isColliding(self, corners):
         x1 = self.x
         y1 = self.y
