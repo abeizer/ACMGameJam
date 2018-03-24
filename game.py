@@ -1,3 +1,4 @@
+from Scenes import *
 import pygame, Particle, Player, Goal, Wall, os
 
 #define colors vusing RGB values
