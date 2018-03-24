@@ -1,19 +1,34 @@
 import pygame, Particle, Player,Goal
+
+#define colors vusing RGB values
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
 BLUE =  (  0,   0, 255)
 GREEN = (  0, 255,   0)
 RED =   (255,   0,   0)
+
 pygame.init()
-gameDisplay=pygame.display.set_mode((800, 600))
-player=Player.Player(20,20)
-particle1=Particle.Particle(100,100,False,None)
-particle2=Particle.Particle(100,200,True,particle1)
-goal=Goal.Goal(400,400)
-collidableObjects=[particle1,particle2]
-gameExit=False
+
+#initialize the screen to size 800 x 600
+gameDisplay = pygame.display.set_mode((800, 600))
+
+#creates the Player character in the location 20, 20
+player = Player.Player(20 , 20)
+
+#Defines the starting positions of the first two Particles for level 1 of the game
+particle1 = Particle.Particle(100, 100, False, None)
+particle2 = Particle.Particle(100, 200, True, particle1) #Particle 2 is entangled to Particle one
+
+#Defines the position for the first goal for level 1 of the game
+goal = Goal.Goal(400, 400)
+
+#Defines the objects that the Player character cannot pass through
+collidableObjects = [particle1, particle2]
+
+
+gameExit = False
 while not gameExit:
-    gameDisplay.fill(BLACK)
+    gameDisplay.fill(BLACK) #The background color is black
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             gameExit = True
