@@ -15,7 +15,8 @@ class Wall:
 
     def getCollider(self):
         return (self.xpos, self.ypos, self.width, self.height)
-
+    def changeVelocity(self,x,y):
+        return
     # TODO: explain please
     def isColliding(self, corners):
         x1 = self.xpos
@@ -32,26 +33,26 @@ class Wall:
         #Collision occuring on this object's left side
         if (x2 + w2 >= x1 >= x2 and y2 + h2 >= y1 >= y2):
 
-            return Direction.Direction.LEFT
+            return True
 
         #Collision occuring on this object's right side
         elif (x2 + w2 >= x1 + w1 >= x2 and y2 + h2 >= y1 >= y2):
 
-            return Direction.Direction.RIGHT
+            return True
 
         #Collision occuring on this object's top side
         elif (x2 + w2 >= x1 >= x2 and y2 + h2 >= y1 + h1 >= y2):
 
-            return Direction.Direction.TOP
+            return True
 
         #Collision occuring on this object's bottom side
         elif (x2 + w2 >= x1 + w1 >= x2 and y2 + h2 >= y1 + h1 >= y2):
 
-            return Direction.Direction.BOTTOM
+            return True
 
         else:
 
-            return Direction.Direction.NULL
+            return False
 
     #Handles the behavior of objects colliding with the Wall
     def collide(self, entity, direction):
@@ -63,17 +64,17 @@ class Wall:
 
         #Bounce the entity off of the wall in the appropriate direction
         if(direction is Direction.Direction.LEFT):
-            entity.changeVelocity(-.5, 0)
-            entity.move()
-        elif(direction is Direction.Direction.RIGHT):
             entity.changeVelocity(.5, 0)
             entity.move()
+        elif(direction is Direction.Direction.RIGHT):
+            entity.changeVelocity(-.5, 0)
+            entity.move()
         elif(direction is Direction.Direction.TOP):
-            entity.changeVelocity(0, -.5)
+            entity.changeVelocity(0, .5)
             entity.move()
 
         elif(direction is Direction.Direction.BOTTOM):
-            entity.changeVelocity(0, .5)
+            entity.changeVelocity(0, -.5)
             entity.move()
 
         entity.changeVelocity(original_x_velocity, original_y_velocity)

@@ -1,4 +1,4 @@
-import pygame
+import pygame, Direction
 
 #define colors
 BLACK = (  0,   0,   0)
@@ -19,6 +19,7 @@ class Player:
         self.y = y
         self.width = 20
         self.height = 20
+        self.movable=False
 
     # draws the player character at its current position using
     def draw(self, gameDisplay):
@@ -63,18 +64,22 @@ class Player:
         y2 = corners[1]
         w2 = corners[2]
         h2 = corners[3]
+        # Collision occuring on this object's left side
         if (x2 + w2 >= x1 >= x2 and y2 + h2 >= y1 >= y2):
 
             return True
 
+        # Collision occuring on this object's right side
         elif (x2 + w2 >= x1 + w1 >= x2 and y2 + h2 >= y1 >= y2):
 
             return True
 
+        # Collision occuring on this object's top side
         elif (x2 + w2 >= x1 >= x2 and y2 + h2 >= y1 + h1 >= y2):
 
             return True
 
+        # Collision occuring on this object's bottom side
         elif (x2 + w2 >= x1 + w1 >= x2 and y2 + h2 >= y1 + h1 >= y2):
 
             return True

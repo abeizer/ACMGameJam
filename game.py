@@ -14,6 +14,7 @@ gameDisplay = pygame.display.set_mode((1000, 1000))
 
 #creates the Player character in the location 20, 20
 player = Player.Player(30, 30)
+player2 = Player.Player(60,60)
 
 #Defines the starting positions of the first two Particles for level 1 of the game
 particle1 = Particle.Particle(100, 100, False, None)
@@ -31,8 +32,8 @@ bottomWall = Wall.Wall(0, 580, 800, 20)
 
 
 #Defines the objects that the Player character cannot pass through
-walls = [leftWall, rightWall, topWall, bottomWall]
-collidableObjects = [particle1, particle2]
+walls = []
+collidableObjects = [particle1, particle2,leftWall, rightWall, topWall, bottomWall,player2]
 
 
 gameExit = False
@@ -71,14 +72,7 @@ while not gameExit:
     player.move()
 
     #Behavior for when an entity collides with a Wall
-    for object in walls:
 
-        # If the player collides with a Wall, that Wall will stop the player's movement and
-        # push the player to keep it from staying stuck on the wall
-        collisionPlayer = object.isColliding(player.getCollider())
-        print(collisionPlayer)
-        if (collisionPlayer is not Direction.Direction.NULL):
-            object.collide(player, collisionPlayer)
     #End for
 
 
@@ -87,26 +81,18 @@ while not gameExit:
 
         #If the player collides with a movable object
         if(player.isColliding(object.getCollider()) and object.movable):
-            if player.up == True:
-                object.move(0, -player.speed)
-            elif player.down == True:
-                object.move(0, player.speed)
-            if player.left == True:
-                object.move(-player.speed, 0)
-            elif player.right == True:
-                object.move(player.speed, 0)
+            object.changeVelocity(player.xVelocity,player.yVelocity)
+            object.move()
+            print("collision")
 
         #If the collidable object is not movable, the player attempts to move, but the collidable
         #object will not move
         elif(player.isColliding(object.getCollider())):
-            if player.up == True:
-                player.move(0, player.speed)
-            elif player.down == True:
-                player.move(0, -player.speed)
-            if player.left == True:
-                player.move(player.speed, 0)
-            elif player.right == True:
-                player.move(-player.speed, 0)
+            player.changeVelocity(-player.xVelocity,-player.yVelocity)
+            player.move()
+            player.changeVelocity(-player.xVelocity, -player.yVelocity)
+        else:
+            object.changeVelocity(0,0)
         #end inner for loop
      #end outer for loop
 
