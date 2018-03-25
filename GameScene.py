@@ -96,7 +96,7 @@ class GameScene(SceneBase):
         # When the goal and target Particle have collided, the player has passed the level
         # so display a win message
         if self.goal.isColliding(self.particle1.getCollider()) and player.isColliding(self.door.getCollider()):
-            self.switchToScene(WinScene())
+            self.SwitchToScene(WinScene())
             
         
 
