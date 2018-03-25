@@ -1,4 +1,4 @@
-import pygame, Particle, Player, Goal, Wall, Direction, os
+import pygame, Particle, Player, Goal, Wall, Direction, os,Door
 #define colors vusing RGB values
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
@@ -21,6 +21,7 @@ particle2 = Particle.Particle(100, 200, True, particle1) #Particle 2 is entangle
 
 #Defines the position for the first goal for level 1 of the game
 goal = Goal.Goal(400, 400)
+door=Door.Door(760,300,20,100)
 
 #NOTE: Negative numbers in wall declarations ruin collision detection
 leftWall = Wall.Wall(0, 0, 20, 600)
@@ -84,7 +85,10 @@ while not gameExit:
                 yvel=e1yv+e2yv
                 entities[e1].changeVelocity(-xvel*2, -yvel*2)
                 entities[e2].changeVelocity(xvel*2, yvel*2)
-
+                if(not entities[e2].movable):
+                    entities[e1].changeVelocity(-xvel * 50, -yvel * 50)
+                elif(not entities[e1].movable):
+                    entities[e2].changeVelocity(xvel * 50, yvel * 50)
 
 
 
@@ -106,7 +110,7 @@ while not gameExit:
 
     #When the goal and target Particle have collided, the player has passed the level
     #so display a win message
-    if goal.isColliding(particle1.getCollider()):
+    if goal.isColliding(particle1.getCollider()) and player.isColliding(door.getCollider()):
         font = pygame.font.SysFont("comicsansms", 72)
         text = font.render("Win", True, (0, 128, 0))
         gameDisplay.blit(text, (320 - text.get_width() // 2, 240 - text.get_height() // 2))
@@ -115,7 +119,7 @@ while not gameExit:
     player.draw(gameDisplay)
     particle1.draw(gameDisplay)
     particle2.draw(gameDisplay)
-
+    door.draw(gameDisplay)
     leftWall.draw(gameDisplay)
     rightWall.draw(gameDisplay)
     topWall.draw(gameDisplay)
