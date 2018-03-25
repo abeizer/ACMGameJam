@@ -1,6 +1,7 @@
 from SceneBase import SceneBase
 from GameScene import GameScene
 import pygame, os
+from LevelTwo import LevelTwo
 
 #define colors using RGB values
 BLACK = (  0,   0,   0)
@@ -61,7 +62,7 @@ class TitleScene(SceneBase):
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 # Move to the next scene when the user pressed Enter
-                self.SwitchToScene(GameScene())
+                self.SwitchToScene(LevelTwo())
 
     def Update(self):
         pass
