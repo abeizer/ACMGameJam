@@ -31,13 +31,15 @@ bottomWall = Wall.Wall(0, 580, 800, 20)
 
 
 #Defines the objects that the Player character cannot pass through
-walls = []
-collidableObjects = [particle1, particle2,leftWall, rightWall, topWall, bottomWall]
+walls = [leftWall, rightWall, topWall, bottomWall]
+collidableObjects = [particle1, particle2, leftWall, rightWall, topWall, bottomWall]
+particles = [particle1, particle2]
 
 
 gameExit = False
 while not gameExit:
     gameDisplay.fill(BLACK) #The background color is black
+
     for event in pygame.event.get():    #returns true if a keypress occurs
 
         #Sets the condition for quitting the game (Clicking the x in top right corner of application)
@@ -66,34 +68,44 @@ while not gameExit:
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 player.left()
     #end for loop
-
-    #Moves the player, modified by the Player's movement speed
     player.move()
 
-    #Behavior for when an entity collides with a Wall
+    for particle in particles:
+        for wall in walls:
+             if(wall.isColliding(particle.getCollider())):
+                print("wall")
+                player.changeVelocity(-player.xVelocity * 2, -player.yVelocity * 2)
+                particle.changeVelocity(player.xVelocity, player.yVelocity)
 
-    #End for
+                for i in range(5):
+                    player.move()
+                    particle.move()
+                # end for
 
+                player.changeVelocity(-player.xVelocity / 2, -player.yVelocity / 2)
+                particle.changeVelocity(-player.xVelocity, -player.yVelocity)
+        # end for
+    # end for
 
     #Behavior for when a player collides with a non-wall object
     for object in collidableObjects:
 
         #If the player collides with a movable object
         if(player.isColliding(object.getCollider()) and object.movable):
-            object.changeVelocity(player.xVelocity,player.yVelocity)
+            object.changeVelocity(player.xVelocity, player.yVelocity)
             object.move()
-            print("collision")
 
         #If the collidable object is not movable, the player attempts to move, but the collidable
         #object will not move
         elif(player.isColliding(object.getCollider())):
-            player.changeVelocity(-player.xVelocity,-player.yVelocity)
+            player.changeVelocity(-player.xVelocity, -player.yVelocity)
             player.move()
             player.changeVelocity(-player.xVelocity, -player.yVelocity)
         else:
-            object.changeVelocity(0,0)
+            object.changeVelocity(0, 0)
         #end inner for loop
      #end outer for loop
+
 
     #When the goal and target Particle have collided, the player has passed the level
     #so display a win message
@@ -101,6 +113,7 @@ while not gameExit:
         font = pygame.font.SysFont("comicsansms", 72)
         text = font.render("Win", True, (0, 128, 0))
         gameDisplay.blit(text, (320 - text.get_width() // 2, 240 - text.get_height() // 2))
+
     #render any changes to the display
     goal.draw(gameDisplay)
     player.draw(gameDisplay)
