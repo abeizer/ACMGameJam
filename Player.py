@@ -12,7 +12,7 @@ class Player():
 
     # defines the starting position and size of the Player character
     def __init__(self, x, y):
-        self.speed = .5
+        self.speed = 1
         self.xVelocity = 0
         self.yVelocity = 0
         self.x = x
