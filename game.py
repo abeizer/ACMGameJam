@@ -82,8 +82,8 @@ while not gameExit:
                 e2yv = entities[e2].yVelocity
                 xvel=e1xv+e2xv
                 yvel=e1yv+e2yv
-                entities[e1].changeVelocity(-xvel*10, -yvel*10)
-                entities[e2].changeVelocity(xvel*10, yvel*10)
+                entities[e1].changeVelocity(-xvel*2, -yvel*2)
+                entities[e2].changeVelocity(xvel*2, yvel*2)
 
 
 

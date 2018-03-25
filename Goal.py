@@ -1,18 +1,18 @@
 #The goal is where the player must direct the main particle to in order to win the level
 
 import pygame
-GREEN = (  0, 255,   0)
+YELLOW = (  255, 255,   0)
 
 
 class Goal:
     def __init__(self, xpos, ypos):
         self.xpos = xpos
         self.ypos = ypos
-        self.radius = 20
+        self.radius = 40
 
     #returns the two corners of the collider box
     def getCollider(self):
-        return (self.xpos-self.radius/2, self.ypos-self.radius/2, self.radius, self.radius)
+        return (self.xpos, self.ypos, self.radius, self.radius)
 
     #TODO: explain please
     def isColliding(self, corners):
@@ -46,4 +46,4 @@ class Goal:
 
     #draws the goal at the specified position on the game display
     def draw(self, gameDisplay):
-        pygame.draw.circle(gameDisplay, GREEN, (int(self.xpos), int(self.ypos)), self.radius)
+        pygame.draw.rect(gameDisplay, YELLOW, [self.xpos, self.ypos, self.radius, self.radius])
