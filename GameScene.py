@@ -1,5 +1,6 @@
 from SceneBase import SceneBase
 from PauseScene import PauseScene
+from WinScene import WinScene
 import Player, Particle, Goal, Wall, pygame
 
 
@@ -57,33 +58,27 @@ class GameScene(SceneBase):
     def Update(self):
         player = self.player
         player.move()
+        # Behavior for when a player collides with a non-wall object
         for object in self.collidableObjects:
 
-            # If the collidable object is also movable, move the collidable object in the same direction
-            # that the Player is moving
+            # If the player collides with a movable object
             if (player.isColliding(object.getCollider()) and object.movable):
-                if player.up == True:
-                    object.move(0, -player.speed)
-                elif player.down == True:
-                    object.move(0, player.speed)
-                if player.left == True:
-                    object.move(-player.speed, 0)
-                elif player.right == True:
-                    object.move(player.speed, 0)
+                object.changeVelocity(player.xVelocity, player.yVelocity)
+                object.move()
+                #print("collision")
 
             # If the collidable object is not movable, the player attempts to move, but the collidable
             # object will not move
             elif (player.isColliding(object.getCollider())):
-                if player.up == True:
-                    player.move(0, player.speed)
-                elif player.down == True:
-                    player.move(0, -player.speed)
-                if player.left == True:
-                    player.move(player.speed, 0)
-                elif player.right == True:
-                    player.move(-player.speed, 0)
-            # end inner for loop
-        # end outer for loop
+                player.changeVelocity(-player.xVelocity, -player.yVelocity)
+                player.move()
+                player.changeVelocity(-player.xVelocity, -player.yVelocity)
+            else:
+                object.changeVelocity(0, 0)
+
+        if self.goal.isColliding(self.particle1.getCollider()):
+            self.SwitchToScene(WinScene())
+
 
     def Render(self, screen):
         # The game scene is just a blank blue screen
