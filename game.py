@@ -10,7 +10,7 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'  #centers the application window in the m
 pygame.init()
 
 #initialize the screen to size 800 x 600
-gameDisplay = pygame.display.set_mode((800, 600))
+gameDisplay = pygame.display.set_mode((1000, 1000))
 
 #creates the Player character in the location 20, 20
 player = Player.Player(30, 30)
@@ -76,7 +76,8 @@ while not gameExit:
         # If the player collides with a Wall, that Wall will stop the player's movement and
         # push the player to keep it from staying stuck on the wall
         collisionPlayer = object.isColliding(player.getCollider())
-        if (collisionPlayer is not Direction.NULL):
+        print(collisionPlayer)
+        if (collisionPlayer is not Direction.Direction.NULL):
             object.collide(player, collisionPlayer)
     #End for
 

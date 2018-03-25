@@ -47,7 +47,7 @@ class Particle:
 
     ##returns the two corners of the collider box
     def getCollider(self):
-        return (self.xpos-self.radius, self.ypos-self.radius, self.radius*2, self.radius*2)
+        return (self.xpos - self.radius, self.ypos - self.radius, self.radius*2, self.radius*2)
 
     #sets the partner Particle for this Particle
     def setPartner(self, partner):

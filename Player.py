@@ -8,7 +8,7 @@ GREEN = (  0, 255,   0)
 RED =   (255,   0,   0)
 
 
-class Player():
+class Player:
 
     # defines the starting position and size of the Player character
     def __init__(self, x, y):
