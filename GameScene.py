@@ -1,19 +1,22 @@
 from SceneBase import SceneBase
 from PauseScene import PauseScene
 from WinScene import WinScene
-import Player, Particle, Goal, Wall, pygame
-
+import Player, Particle, Goal, Wall, pygame,Door
+blueParticle=pygame.image.load("Images/particle_blue.png")
+redParticle=pygame.image.load("Images/particle_red.png")
+playerimage=pygame.image.load("Images/player.png")
+playerimage=pygame.transform.scale(playerimage,(30,30))
 
 class GameScene(SceneBase):
 
     def __init__(self):
         SceneBase.__init__(self)
         # creates the Player character in the location 20, 20
-        self.player = Player.Player(30, 30)
+        self.player = Player.Player(30, 30,playerimage)
 
         # Defines the starting positions of the first two Particles for level 1 of the game
-        self.particle1 = Particle.Particle(100, 100, False, None)
-        self.particle2 = Particle.Particle(100, 200, True, self.particle1)  # Particle 2 is entangled to Particle one
+        self.particle1 = Particle.Particle(100, 100, False, None,redParticle,False)
+        self.particle2 = Particle.Particle(100, 200, True, self.particle1,blueParticle,False)  # Particle 2 is entangled to Particle one
 
         # Defines the position for the first goal for level 1 of the game
         self.goal = Goal.Goal(400, 400)
@@ -23,9 +26,11 @@ class GameScene(SceneBase):
         self.rightWall = Wall.Wall(780, 0, 20, 600)
         self.topWall = Wall.Wall(0, 0, 800, 20)
         self.bottomWall = Wall.Wall(0, 580, 800, 20)
+        self.door = Door.Door(760, 300, 20, 100)
 
         # Defines the objects that the Player character cannot pass through
-        self.collidableObjects = [self.particle1, self.particle2, self.leftWall, self.rightWall, self.topWall, self.bottomWall]
+        self.entities = [self.player,self.particle1, self.particle2, self.leftWall, self.rightWall, self.topWall, self.bottomWall]
+        self.particles=[self.particle1,self.particle2]
 
         pygame.mixer.music.load('A Strange Charm.wav')
         pygame.mixer.music.play(0)
@@ -59,28 +64,41 @@ class GameScene(SceneBase):
                 self.SwitchToScene(PauseScene(self))
 
     def Update(self):
-        player = self.player
-        player.move()
+        player=self.player
+        playerxvel = player.xVelocity
+        playeryvel = player.yVelocity
         # Behavior for when a player collides with a non-wall object
-        for object in self.collidableObjects:
+        for e1 in range(len(self.entities)):
+            e2 = e1 + 1
+            while e2 < len(self.entities):
+                if (self.entities[e1].isColliding(self.entities[e2].getCollider())):
+                    e1xv = self.entities[e1].xVelocity
+                    e1yv = self.entities[e1].yVelocity
+                    e2xv = self.entities[e2].xVelocity
+                    e2yv = self.entities[e2].yVelocity
+                    xvel = e1xv + e2xv
+                    yvel = e1yv + e2yv
+                    self.entities[e1].changeVelocity(-xvel * 2, -yvel * 2)
+                    self.entities[e2].changeVelocity(xvel * 2, yvel * 2)
+                    if (not self.entities[e2].movable):
+                        self.entities[e1].changeVelocity(-xvel * 2, -yvel * 2)
+                    elif (not self.entities[e1].movable):
+                        self.entities[e2].changeVelocity(xvel * 2, yvel * 2)
 
-            # If the player collides with a movable object
-            if (player.isColliding(object.getCollider()) and object.movable):
-                object.changeVelocity(player.xVelocity, player.yVelocity)
-                object.move()
-                #print("collision")
+                e2 += 1
 
-            # If the collidable object is not movable, the player attempts to move, but the collidable
-            # object will not move
-            elif (player.isColliding(object.getCollider())):
-                player.changeVelocity(-player.xVelocity, -player.yVelocity)
-                player.move()
-                player.changeVelocity(-player.xVelocity, -player.yVelocity)
-            else:
-                object.changeVelocity(0, 0)
+        for entity in range(0, len(self.entities)):
+            self.entities[entity].move()
+        player.changeVelocity(playerxvel, playeryvel)
+        for particle in self.particles:
+            particle.changeVelocity(0, 0)
 
-        if self.goal.isColliding(self.particle1.getCollider()):
-            self.SwitchToScene(WinScene())
+        # When the goal and target Particle have collided, the player has passed the level
+        # so display a win message
+        if self.goal.isColliding(self.particle1.getCollider()) and player.isColliding(self.door.getCollider()):
+            self.switchToScene(WinScene())
+            
+        
 
 
     def Render(self, screen):
@@ -96,3 +114,4 @@ class GameScene(SceneBase):
         self.rightWall.draw(screen)
         self.topWall.draw(screen)
         self.bottomWall.draw(screen)
+        self.door.draw(screen)

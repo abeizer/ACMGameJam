@@ -91,14 +91,9 @@ while not gameExit:
                 entities[e1].changeVelocity(-xvel*2, -yvel*2)
                 entities[e2].changeVelocity(xvel*2, yvel*2)
                 if(not entities[e2].movable):
-                    entities[e1].changeVelocity(-xvel * 50, -yvel * 50)
+                    entities[e1].changeVelocity(-xvel * 2, -yvel * 2)
                 elif(not entities[e1].movable):
-                    entities[e2].changeVelocity(xvel * 50, yvel * 50)
-
-
-
-
-
+                    entities[e2].changeVelocity(xvel * 2, yvel * 2)
 
 
 
