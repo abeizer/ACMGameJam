@@ -4,7 +4,7 @@ from WinScene import WinScene
 import Player, Particle, Goal, Wall, Door, pygame
 import time
 
-blueParticle = pygame.image.load("Images/particle_blue.png")
+greenParticle = pygame.image.load("Images/particle_green.png")
 
 class LevelThree(SceneBase):
 
@@ -16,8 +16,8 @@ class LevelThree(SceneBase):
         player.y = 30
 
         # Defines the starting positions of the first two Particles for level 3 of the game
-        self.particle1 = Particle.Particle(90, 360, False, None, blueParticle, False)
-        self.particle2 = Particle.Particle(90, 80, True, self.particle1, blueParticle, False)  # Particle 2 is entangled to Particle one
+        self.particle1 = Particle.Particle(90, 360, False, None, greenParticle, False)
+        self.particle2 = Particle.Particle(90, 80, True, self.particle1, greenParticle, False)  # Particle 2 is entangled to Particle one
 
         # Defines the position for the first goal for level 3 of the game
         self.goal = Goal.Goal(720, 530)
