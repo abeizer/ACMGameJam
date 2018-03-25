@@ -27,6 +27,7 @@ class GameScene(SceneBase):
         self.topWall = Wall.Wall(0, 0, 800, 20)
         self.bottomWall = Wall.Wall(0, 580, 800, 20)
         self.door = Door.Door(760, 300, 20, 100)
+        self.walls=[self.leftWall,self.rightWall,self.bottomWall,self.topWall]
 
         # Defines the objects that the Player character cannot pass through
         self.entities = [self.player,self.particle1, self.particle2, self.leftWall, self.rightWall, self.topWall, self.bottomWall]
@@ -86,6 +87,12 @@ class GameScene(SceneBase):
                         self.entities[e2].changeVelocity(xvel * 2, yvel * 2)
 
                 e2 += 1
+        for wall in self.walls:
+            if self.particle1.isColliding(wall.getCollider()):
+                player.changeVelocity(-player.xVelocity * 2, -player.yVelocity * 2)
+                player.move()
+                self.particle2.changeVelocity(player.xVelocity * 2, player.yVelocity * 2)
+                self.particle2.move()
 
         for entity in range(0, len(self.entities)):
             self.entities[entity].move()

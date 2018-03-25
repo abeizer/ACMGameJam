@@ -31,6 +31,7 @@ leftWall = Wall.Wall(0, 0, 20, 600)
 rightWall = Wall.Wall(780, 0, 20, 600)
 topWall = Wall.Wall(0, 0, 800, 20)
 bottomWall = Wall.Wall(0, 580, 800, 20)
+walls=[topWall,bottomWall,rightWall,leftWall]
 
 
 
@@ -98,6 +99,12 @@ while not gameExit:
 
 
             e2 += 1
+    for wall in walls:
+        if particle1.isColliding(wall.getCollider()):
+            player.changeVelocity(-player.xVelocity*2,-player.yVelocity*2)
+            player.move()
+            particle2.changeVelocity(player.xVelocity*2,player.yVelocity*2)
+            particle2.move()
 
     for entity in range(0,len(entities)):
         entities[entity].move()
