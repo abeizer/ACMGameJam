@@ -14,7 +14,6 @@ gameDisplay = pygame.display.set_mode((1000, 1000))
 
 #creates the Player character in the location 20, 20
 player = Player.Player(30, 30)
-player2 = Player.Player(60,60)
 
 #Defines the starting positions of the first two Particles for level 1 of the game
 particle1 = Particle.Particle(100, 100, False, None)
@@ -33,7 +32,7 @@ bottomWall = Wall.Wall(0, 580, 800, 20)
 
 #Defines the objects that the Player character cannot pass through
 walls = []
-collidableObjects = [particle1, particle2,leftWall, rightWall, topWall, bottomWall,player2]
+collidableObjects = [particle1, particle2,leftWall, rightWall, topWall, bottomWall]
 
 
 gameExit = False
