@@ -1,14 +1,12 @@
 from SceneBase import SceneBase
 from PauseScene import PauseScene
-from LevelThree import LevelThree
+from WinScene import WinScene
 import Player, Particle, Goal, Wall, Door, pygame
 import time
 
-redParticle = pygame.image.load("Images/particle_red.png")
-orangeParticle = pygame.image.load("Images/particle_orange.png")
+blueParticle = pygame.image.load("Images/particle_blue.png")
 
-
-class LevelTwo(SceneBase):
+class LevelThree(SceneBase):
 
     def __init__(self, player):
         SceneBase.__init__(self)
@@ -17,28 +15,29 @@ class LevelTwo(SceneBase):
         player.x = 30
         player.y = 30
 
-        # Defines the starting positions of the first two Particles for level 2 of the game
-        self.particle1 = Particle.Particle(100, 50, False, None, orangeParticle, True)
-        self.particle2 = Particle.Particle(680, 520, True, self.particle1, redParticle, True)  # Particle 2 is entangled to Particle one
+        # Defines the starting positions of the first two Particles for level 3 of the game
+        self.particle1 = Particle.Particle(90, 360, False, None, blueParticle, False)
+        self.particle2 = Particle.Particle(90, 80, True, self.particle1, blueParticle, False)  # Particle 2 is entangled to Particle one
 
-        # Defines the position for the first goal for level 1 of the game
-        self.goal = Goal.Goal(420, 150)
-        self.door = Door.Door(760, 300, 20, 100)
+        # Defines the position for the first goal for level 3 of the game
+        self.goal = Goal.Goal(720, 530)
+        self.door = Door.Door(760, 100, 20, 100)
         # NOTE: Negative numbers in wall declarations ruin collision detection
         self.leftWall = Wall.Wall(0, 0, 20, 600)
         self.rightWall = Wall.Wall(780, 0, 20, 600)
         self.topWall = Wall.Wall(0, 0, 800, 20)
         self.bottomWall = Wall.Wall(0, 580, 800, 20)
 
-        self.leftWallObstacleOne = Wall.Wall(80, 85, 300, 20)
-        self.leftWallObstacleTwo = Wall.Wall(380, 85, 20, 40)
-        self.rightWallObstacleOne = Wall.Wall(500, 85, 540, 20)
-        self.rightWallObstacleTwo = Wall.Wall(480, 85, 20, 40)
-        self.walls = [self.leftWall, self.rightWall, self.bottomWall, self.topWall, self.leftWallObstacleOne, self.leftWallObstacleTwo, self.rightWallObstacleOne, self.rightWallObstacleTwo]
+        self.centerWallObstacle = Wall.Wall(20, 290, 780, 30)
+        self.lowerWallObstacle = Wall.Wall(20, 390, 280, 20)
+        self.middleWallObstacle = Wall.Wall(380, 300, 20, 180)
+        self.rightWallObstacleOne = Wall.Wall(500, 450, 20, 130)
+        self.rightWallObstacleTwo = Wall.Wall(580, 360, 200, 20)
+        self.walls = [self.leftWall, self.rightWall, self.bottomWall, self.topWall, self.centerWallObstacle, self.lowerWallObstacle, self.middleWallObstacle, self.rightWallObstacleOne, self.rightWallObstacleTwo]
 
         # Defines the objects that the Player character cannot pass through
         self.entities = [self.player, self.particle1, self.particle2, self.leftWall, self.rightWall, self.topWall,
-                         self.bottomWall, self.leftWallObstacleOne, self.leftWallObstacleTwo, self.rightWallObstacleOne, self.rightWallObstacleTwo]
+                         self.bottomWall, self.centerWallObstacle, self.lowerWallObstacle, self.middleWallObstacle, self.rightWallObstacleOne, self.rightWallObstacleTwo]
         self.particles = [self.particle1, self.particle2]
         self.startTime = int(round(time.time()))
         pygame.mixer.music.load('A Strange Charm.wav')
@@ -86,8 +85,8 @@ class LevelTwo(SceneBase):
                     e2yv = self.entities[e2].yVelocity
                     xvel = e1xv + e2xv
                     yvel = e1yv + e2yv
-                    self.entities[e1].changeVelocity(-xvel * .5, yvel * .5)
-                    self.entities[e2].changeVelocity(xvel * 4, yvel * 4)
+                    self.entities[e1].changeVelocity(-xvel * 2, -yvel * 2)
+                    self.entities[e2].changeVelocity(xvel * 2, yvel * 2)
                     if (not self.entities[e2].movable):
                         self.entities[e1].changeVelocity(-xvel * 2, -yvel * 2)
                     elif (not self.entities[e1].movable):
@@ -113,7 +112,7 @@ class LevelTwo(SceneBase):
         # When the goal and target Particle have collided, the player has passed the level
         # so display a win message
         if self.goal.isColliding(self.particle1.getCollider()) and player.isColliding(self.door.getCollider()):
-            self.SwitchToScene(LevelThree(self.player))
+            self.SwitchToScene(WinScene())
 
     def Render(self, screen):
         # The game scene is just a blank blue screen
@@ -129,8 +128,10 @@ class LevelTwo(SceneBase):
         self.rightWall.draw(screen)
         self.topWall.draw(screen)
         self.bottomWall.draw(screen)
-        self.leftWallObstacleOne.draw(screen)
-        self.leftWallObstacleTwo.draw(screen)
+
+        self.centerWallObstacle.draw(screen)
+        self.lowerWallObstacle.draw(screen)
+        self.middleWallObstacle.draw(screen)
         self.rightWallObstacleOne.draw(screen)
         self.rightWallObstacleTwo.draw(screen)
         font = pygame.font.SysFont("comicsansms", 48)
