@@ -13,7 +13,7 @@ RED =   (255,   0,   0)
 class Particle:
     #creates a Particle at the given coordinates and whether it is movable
     #and ties it to a partner Particle if one exists
-    def __init__(self, xpos, ypos, movable, partner,img):
+    def __init__(self, xpos, ypos, movable, partner,img,isReversed):
         self.xpos = xpos
         self.ypos = ypos
         self.radius = 20
@@ -22,6 +22,7 @@ class Particle:
         self.yVelocity = 0
         self.xVelocity = 0
         self.img=img
+        self.isReversed=isReversed
 
     #attempts to move the Particle
     #also moves the partnered Particle if one exists
@@ -34,8 +35,12 @@ class Particle:
                 self.partner.changeVelocity(self.xVelocity, self.yVelocity)
                 self.partner.forceMove()
     def forceMove(self):
-        self.xpos += self.xVelocity
-        self.ypos += self.yVelocity
+        if self.isReversed:
+            self.xpos -= self.xVelocity
+            self.ypos -= self.yVelocity
+        else:
+            self.xpos += self.xVelocity
+            self.ypos += self.yVelocity
 
     #Straight up just changes the velocity
     def changeVelocity(self, xV, yV):

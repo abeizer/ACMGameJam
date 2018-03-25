@@ -19,8 +19,8 @@ gameDisplay = pygame.display.set_mode((1000, 1000))
 player = Player.Player(30, 30,playerimage)
 
 #Defines the starting positions of the first two Particles for level 1 of the game
-particle1 = Particle.Particle(100, 100, False, None,redParticle)
-particle2 = Particle.Particle(100, 200, True, particle1,blueParticle) #Particle 2 is entangled to Particle one
+particle1 = Particle.Particle(100, 100, False, None,redParticle,False)
+particle2 = Particle.Particle(100, 200, True, particle1,blueParticle,False) #Particle 2 is entangled to Particle one
 
 #Defines the position for the first goal for level 1 of the game
 goal = Goal.Goal(400, 400)
