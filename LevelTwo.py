@@ -10,7 +10,7 @@ orangeParticle = pygame.image.load("Images/particle_orange.png")
 
 class LevelTwo(SceneBase):
 
-    def __init__(self, player):
+    def __init__(self, player, clock):
         SceneBase.__init__(self)
         # creates the Player character in the location 20, 20
         self.player = player
@@ -40,9 +40,9 @@ class LevelTwo(SceneBase):
         self.entities = [self.player, self.particle1, self.particle2, self.leftWall, self.rightWall, self.topWall,
                          self.bottomWall, self.leftWallObstacleOne, self.leftWallObstacleTwo, self.rightWallObstacleOne, self.rightWallObstacleTwo]
         self.particles = [self.particle1, self.particle2]
-        self.startTime = int(round(time.time()))
-        pygame.mixer.music.load('A Strange Charm.wav')
-        pygame.mixer.music.play(0)
+        self.startTime = clock
+        #pygame.mixer.music.load('A Strange Charm.wav')
+        #pygame.mixer.music.play(-1)
 
     def ProcessInput(self, events, pressed_keys):
         player = self.player
@@ -113,7 +113,7 @@ class LevelTwo(SceneBase):
         # When the goal and target Particle have collided, the player has passed the level
         # so display a win message
         if self.goal.isColliding(self.particle1.getCollider()) and player.isColliding(self.door.getCollider()):
-            self.SwitchToScene(LevelThree(self.player))
+            self.SwitchToScene(LevelThree(self.player, self.startTime))
 
     def Render(self, screen):
         # The game scene is just a blank blue screen

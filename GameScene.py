@@ -113,7 +113,7 @@ class GameScene(SceneBase):
         else:
             self.door.isOpen=False
         if self.goal.isColliding(self.particle1.getCollider()) and player.isColliding(self.door.getCollider()):
-            self.SwitchToScene(LevelTwo(self.player))
+            self.SwitchToScene(LevelTwo(self.player, self.startTime))
 
             
         

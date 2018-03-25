@@ -8,7 +8,7 @@ greenParticle = pygame.image.load("Images/particle_green.png")
 
 class LevelThree(SceneBase):
 
-    def __init__(self, player):
+    def __init__(self, player, clock):
         SceneBase.__init__(self)
         # creates the Player character in the location 20, 20
         self.player = player
@@ -39,9 +39,9 @@ class LevelThree(SceneBase):
         self.entities = [self.player, self.particle1, self.particle2, self.leftWall, self.rightWall, self.topWall,
                          self.bottomWall, self.centerWallObstacle, self.lowerWallObstacle, self.middleWallObstacle, self.rightWallObstacleOne, self.rightWallObstacleTwo]
         self.particles = [self.particle1, self.particle2]
-        self.startTime = int(round(time.time()))
-        pygame.mixer.music.load('A Strange Charm.wav')
-        pygame.mixer.music.play(0)
+        self.startTime = clock
+        #pygame.mixer.music.load('A Strange Charm.wav')
+        #pygame.mixer.music.play(0)
 
     def ProcessInput(self, events, pressed_keys):
         player = self.player
