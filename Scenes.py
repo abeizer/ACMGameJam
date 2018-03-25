@@ -1,9 +1,14 @@
-
-
-import pygame
+import pygame, os
 import Player
 
-global gameScene
+#define colors using RGB values
+BLACK = (  0,   0,   0)
+WHITE = (255, 255, 255)
+BLUE =  (  0,   0, 255)
+RED =   (255,   0,   0)
+GREEN = (  0, 255,   0)
+
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 class SceneBase:
     def __init__(self):
@@ -157,5 +162,5 @@ class PauseScene:
     def Terminate(self):
         self.SwitchToScene(None)
 
-run_game(400, 300, 60, TitleScene())
+run_game(800, 600, 60, TitleScene())
 
