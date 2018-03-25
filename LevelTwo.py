@@ -88,8 +88,8 @@ class LevelTwo(SceneBase):
                     e2yv = self.entities[e2].yVelocity
                     xvel = e1xv + e2xv
                     yvel = e1yv + e2yv
-                    self.entities[e1].changeVelocity(-xvel * 2, -yvel * 2)
-                    self.entities[e2].changeVelocity(xvel * 2, yvel * 2)
+                    self.entities[e1].changeVelocity(-xvel * .5, yvel * .5)
+                    self.entities[e2].changeVelocity(xvel * 4, yvel * 4)
                     if (not self.entities[e2].movable):
                         self.entities[e1].changeVelocity(-xvel * 2, -yvel * 2)
                     elif (not self.entities[e1].movable):
