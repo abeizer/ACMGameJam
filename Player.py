@@ -19,7 +19,7 @@ class Player:
         self.y = y
         self.width = 20
         self.height = 20
-        self.movable=False
+        self.movable = False
 
     # draws the player character at its current position using
     def draw(self, gameDisplay):

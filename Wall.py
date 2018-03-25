@@ -12,6 +12,7 @@ class Wall:
         self.width = width
         self.height = height
         self.movable = False
+        self.isWall = True
 
     def getCollider(self):
         return (self.xpos, self.ypos, self.width, self.height)
