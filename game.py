@@ -1,4 +1,3 @@
-from Scenes import *
 import pygame, Particle, Player, Goal, Wall, Direction, os
 #define colors vusing RGB values
 BLACK = (  0,   0,   0)
