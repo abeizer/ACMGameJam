@@ -8,12 +8,15 @@ class GameScene(SceneBase):
 
     def __init__(self):
         SceneBase.__init__(self)
+        playerimage = pygame.transform.scale(pygame.image.load("Images/player.png"), (30, 30))
         # creates the Player character in the location 20, 20
-        self.player = Player.Player(30, 30)
+        self.player = Player.Player(30, 30, playerimage)
 
+        blueParticle = pygame.image.load("Images/particle_blue.png")
+        redParticle = pygame.image.load("Images/particle_red.png")
         # Defines the starting positions of the first two Particles for level 1 of the game
-        self.particle1 = Particle.Particle(100, 100, False, None)
-        self.particle2 = Particle.Particle(100, 200, True, self.particle1)  # Particle 2 is entangled to Particle one
+        self.particle1 = Particle.Particle(100, 100, False, None, redParticle, False)
+        self.particle2 = Particle.Particle(100, 200, True, self.particle1, blueParticle, False)  # Particle 2 is entangled to Particle one
 
         # Defines the position for the first goal for level 1 of the game
         self.goal = Goal.Goal(400, 400)
@@ -28,7 +31,7 @@ class GameScene(SceneBase):
         self.collidableObjects = [self.particle1, self.particle2, self.leftWall, self.rightWall, self.topWall, self.bottomWall]
 
         pygame.mixer.music.load('A Strange Charm.wav')
-        pygame.mixer.music.play(0)
+        pygame.mixer.music.play(-1)
 
     def ProcessInput(self, events, pressed_keys):
         player = self.player
@@ -54,8 +57,8 @@ class GameScene(SceneBase):
                     player.left()
 
 
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                # pause when the user pressed escape
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
+                # pause when the user pressed tab
                 self.SwitchToScene(PauseScene(self))
 
     def Update(self):
