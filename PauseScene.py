@@ -1,5 +1,5 @@
 import pygame
-
+import GameScene
 
 class PauseScene:
     def __init__(self, gameScene):
@@ -27,6 +27,7 @@ class PauseScene:
         screen.blit(text, (800 - text.get_width(), 600 - text.get_height()))
 
         mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
         buttonX = 50
         buttonY = 450
         buttonFont = pygame.font.SysFont("arial", 36)
@@ -41,6 +42,9 @@ class PauseScene:
             pygame.draw.rect(screen, (0, 180, 0),
                              (buttonX - 5, buttonY - 5, buttonText.get_width() + 10, buttonText.get_height() + 10))
             screen.blit(buttonText, (buttonX, buttonY))
+            if click[0] == 1:
+                from GameScene import GameScene
+                self.SwitchToScene(GameScene())
         else:
             pygame.draw.rect(screen, (0, 0, 0),
                              (buttonX - 7, buttonY - 7, buttonText.get_width() + 14, buttonText.get_height() + 14))
