@@ -1,5 +1,6 @@
 from SceneBase import SceneBase
 from PauseScene import PauseScene
+from LevelTwo import LevelTwo
 from WinScene import WinScene
 import time
 import Player, Particle, Goal, Wall, pygame,Door
@@ -112,7 +113,7 @@ class GameScene(SceneBase):
         else:
             self.door.isOpen=False
         if self.goal.isColliding(self.particle1.getCollider()) and player.isColliding(self.door.getCollider()):
-            self.SwitchToScene(WinScene())
+            self.SwitchToScene(LevelTwo(self.player))
 
             
         

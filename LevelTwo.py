@@ -12,10 +12,12 @@ playerimage = pygame.transform.scale(playerimage, (30, 30))
 
 class LevelTwo(SceneBase):
 
-    def __init__(self):
+    def __init__(self,player):
         SceneBase.__init__(self)
         # creates the Player character in the location 20, 20
-        self.player = Player.Player(30, 30, playerimage)
+        self.player = player
+        player.x=30
+        player.y=30
 
         # Defines the starting positions of the first two Particles for level 2 of the game
         self.particle1 = Particle.Particle(100, 50, False, None, orangeParticle, True)
