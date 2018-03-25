@@ -27,6 +27,9 @@ class GameScene(SceneBase):
         # Defines the objects that the Player character cannot pass through
         self.collidableObjects = [self.particle1, self.particle2, self.leftWall, self.rightWall, self.topWall, self.bottomWall]
 
+        pygame.mixer.music.load('A Strange Charm.wav')
+        pygame.mixer.music.play(0)
+
     def ProcessInput(self, events, pressed_keys):
         player = self.player
         for event in events:
