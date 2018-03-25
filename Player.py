@@ -83,3 +83,7 @@ class Player():
 
             return False
 
+    def getCollider(self):
+        return (self.x, self.y, self.width, self.height)
+
+

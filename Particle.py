@@ -37,6 +37,7 @@ class Particle:
         self.xVelocity = xV
         self.yVelocity = yV
 
+
     #If the Particle is movable, redraws the Particle at its current location after it has moved
     def draw(self, gameDisplay):
         if(self.movable):

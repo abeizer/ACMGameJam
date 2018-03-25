@@ -1,6 +1,5 @@
 from Scenes import *
-import pygame, Particle, Player, Goal, Wall, os
-
+import pygame, Particle, Player, Goal, Wall, Direction, os
 #define colors vusing RGB values
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
@@ -33,7 +32,8 @@ bottomWall = Wall.Wall(0, 580, 800, 20)
 
 
 #Defines the objects that the Player character cannot pass through
-collidableObjects = [particle1, particle2, leftWall, rightWall, topWall, bottomWall]
+walls = [leftWall, rightWall, topWall, bottomWall]
+collidableObjects = [particle1, particle2]
 
 
 gameExit = False
@@ -71,11 +71,21 @@ while not gameExit:
     #Moves the player, modified by the Player's movement speed
     player.move()
 
-    #Behavior for when the player collides with a collidable object
+    #Behavior for when an entity collides with a Wall
+    for object in walls:
+
+        # If the player collides with a Wall, that Wall will stop the player's movement and
+        # push the player to keep it from staying stuck on the wall
+        collisionPlayer = object.isColliding(player.getCollider())
+        if (collisionPlayer is not Direction.NULL):
+            object.collide(player, collisionPlayer)
+    #End for
+
+
+    #Behavior for when a player collides with a non-wall object
     for object in collidableObjects:
 
-        #If the collidable object is also movable, move the collidable object in the same direction
-        #that the Player is moving
+        #If the player collides with a movable object
         if(player.isColliding(object.getCollider()) and object.movable):
             if player.up == True:
                 object.move(0, -player.speed)
