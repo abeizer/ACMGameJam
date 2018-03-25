@@ -1,6 +1,7 @@
 from SceneBase import SceneBase
 from PauseScene import PauseScene
 from WinScene import WinScene
+import time
 import Player, Particle, Goal, Wall, pygame,Door
 blueParticle=pygame.image.load("Images/particle_blue.png")
 redParticle=pygame.image.load("Images/particle_red.png")
@@ -32,9 +33,10 @@ class GameScene(SceneBase):
         # Defines the objects that the Player character cannot pass through
         self.entities = [self.player,self.particle1, self.particle2, self.leftWall, self.rightWall, self.topWall, self.bottomWall]
         self.particles=[self.particle1,self.particle2]
-
+        self.startTime=int(round(time.time()))
         pygame.mixer.music.load('A Strange Charm.wav')
         pygame.mixer.music.play(0)
+
 
     def ProcessInput(self, events, pressed_keys):
         player = self.player
@@ -102,8 +104,13 @@ class GameScene(SceneBase):
 
         # When the goal and target Particle have collided, the player has passed the level
         # so display a win message
+        if self.goal.isColliding(self.particle1.getCollider()):
+            self.door.isOpen=True
+        else:
+            self.door.isOpen=False
         if self.goal.isColliding(self.particle1.getCollider()) and player.isColliding(self.door.getCollider()):
             self.SwitchToScene(WinScene())
+
             
         
 
@@ -122,3 +129,6 @@ class GameScene(SceneBase):
         self.topWall.draw(screen)
         self.bottomWall.draw(screen)
         self.door.draw(screen)
+        font = pygame.font.SysFont("comicsansms", 48)
+        text = font.render(str(int(time.time()-self.startTime)), True, (255, 255, 255))
+        screen.blit(text, (700 - text.get_width() // 2, 50 - text.get_height() // 2))

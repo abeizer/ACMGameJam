@@ -2,7 +2,11 @@
 
 import pygame
 YELLOW = (  100, 255,   0)
-
+BLACK = (  0,   0,   0)
+WHITE = (255, 255, 255)
+BLUE =  (  0,   0, 255)
+RED =   (255,   0,   0)
+GREEN = (  0, 255,   0)
 
 class Door:
     def __init__(self, xpos, ypos,width,height):
@@ -49,4 +53,7 @@ class Door:
 
     #draws the goal at the specified position on the game display
     def draw(self, gameDisplay):
-        pygame.draw.rect(gameDisplay, YELLOW, [self.xpos, self.ypos,self.width,self.height])
+        if self.isOpen:
+            pygame.draw.rect(gameDisplay, GREEN, [self.xpos, self.ypos,self.width,self.height])
+        else:
+            pygame.draw.rect(gameDisplay, RED, [self.xpos, self.ypos, self.width, self.height])
