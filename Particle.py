@@ -13,7 +13,7 @@ RED =   (255,   0,   0)
 class Particle:
     #creates a Particle at the given coordinates and whether it is movable
     #and ties it to a partner Particle if one exists
-    def __init__(self, xpos, ypos, movable, partner):
+    def __init__(self, xpos, ypos, movable, partner,img):
         self.xpos = xpos
         self.ypos = ypos
         self.radius = 20
@@ -21,6 +21,7 @@ class Particle:
         self.partner = partner
         self.yVelocity = 0
         self.xVelocity = 0
+        self.img=img
 
     #attempts to move the Particle
     #also moves the partnered Particle if one exists
@@ -44,10 +45,7 @@ class Particle:
 
     #If the Particle is movable, redraws the Particle at its current location after it has moved
     def draw(self, gameDisplay):
-        if(self.movable):
-            pygame.draw.circle(gameDisplay, BLUE, (int(self.xpos), int(self.ypos)), self.radius)
-        else:
-            pygame.draw.circle(gameDisplay, RED, (int(self.xpos), int(self.ypos)), self.radius)
+        gameDisplay.blit(self.img,(int(self.xpos-self.radius),int(self.ypos-self.radius)))
 
     ##returns the two corners of the collider box
     def getCollider(self):

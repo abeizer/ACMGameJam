@@ -5,7 +5,10 @@ WHITE = (255, 255, 255)
 BLUE =  (  0,   0, 255)
 RED =   (255,   0,   0)
 GREEN = (  0, 255,   0)
-
+blueParticle=pygame.image.load("Images/particle_blue.png")
+redParticle=pygame.image.load("Images/particle_red.png")
+playerimage=pygame.image.load("Images/player.png")
+playerimage=pygame.transform.scale(playerimage,(30,30))
 os.environ['SDL_VIDEO_CENTERED'] = '1'  #centers the application window in the middle of the screen on startup
 pygame.init()
 
@@ -13,11 +16,11 @@ pygame.init()
 gameDisplay = pygame.display.set_mode((1000, 1000))
 
 #creates the Player character in the location 20, 20
-player = Player.Player(30, 30)
+player = Player.Player(30, 30,playerimage)
 
 #Defines the starting positions of the first two Particles for level 1 of the game
-particle1 = Particle.Particle(100, 100, False, None)
-particle2 = Particle.Particle(100, 200, True, particle1) #Particle 2 is entangled to Particle one
+particle1 = Particle.Particle(100, 100, False, None,redParticle)
+particle2 = Particle.Particle(100, 200, True, particle1,blueParticle) #Particle 2 is entangled to Particle one
 
 #Defines the position for the first goal for level 1 of the game
 goal = Goal.Goal(400, 400)
@@ -35,6 +38,8 @@ bottomWall = Wall.Wall(0, 580, 800, 20)
 
 entities = [player,particle1, particle2, leftWall, rightWall, topWall, bottomWall]
 particles=[particle1,particle2]
+#rank by what you want to appear on what reversed
+drawable=[goal,player,particle1,particle2,door,leftWall,rightWall,topWall,bottomWall]
 
 
 gameExit = False
@@ -115,15 +120,8 @@ while not gameExit:
         text = font.render("Win", True, (0, 128, 0))
         gameDisplay.blit(text, (320 - text.get_width() // 2, 240 - text.get_height() // 2))
     #render any changes to the display
-    goal.draw(gameDisplay)
-    player.draw(gameDisplay)
-    particle1.draw(gameDisplay)
-    particle2.draw(gameDisplay)
-    door.draw(gameDisplay)
-    leftWall.draw(gameDisplay)
-    rightWall.draw(gameDisplay)
-    topWall.draw(gameDisplay)
-    bottomWall.draw(gameDisplay)
+    for draw in drawable:
+        draw.draw(gameDisplay)
 
     pygame.display.update()
 #end while loop

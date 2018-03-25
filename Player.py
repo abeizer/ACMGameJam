@@ -11,7 +11,7 @@ RED =   (255,   0,   0)
 class Player:
 
     # defines the starting position and size of the Player character
-    def __init__(self, x, y):
+    def __init__(self, x, y,img):
         self.speed = 1
         self.xVelocity = 0
         self.yVelocity = 0
@@ -20,10 +20,11 @@ class Player:
         self.width = 20
         self.height = 20
         self.movable = True
+        self.img=img
 
     # draws the player character at its current position using
     def draw(self, gameDisplay):
-        pygame.draw.rect(gameDisplay, WHITE, [self.x, self.y, self.width, self.height])
+        gameDisplay.blit(self.img,(self.x,self.y))
 
     #Moves the player based on its velocity
     def move(self):
