@@ -67,8 +67,10 @@ class TitleScene(SceneBase):
         pass
 
     def Render(self, screen):
-        # For the sake of brevity, the title scene is a blank red screen
-        screen.fill((255, 0, 0))
+        screen.fill((0, 0, 0))
+        font = pygame.font.SysFont("arial", 72)
+        text = font.render("A Strange Charm", True, (0, 128, 0))
+        screen.blit(text, (320 - text.get_width() // 2, 240 - text.get_height() // 2))
 
 run_game(800, 600, 60, TitleScene())
 
