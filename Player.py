@@ -12,14 +12,14 @@ class Player:
 
     # defines the starting position and size of the Player character
     def __init__(self, x, y):
-        self.speed = 2
+        self.speed = 1
         self.xVelocity = 0
         self.yVelocity = 0
         self.x = x
         self.y = y
         self.width = 20
         self.height = 20
-        self.movable = False
+        self.movable = True
 
     # draws the player character at its current position using
     def draw(self, gameDisplay):

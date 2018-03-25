@@ -26,11 +26,15 @@ class Particle:
     #also moves the partnered Particle if one exists
     #NOTE: Assumes a one-way partnership. Two-way partnerships will cause an infinite loop
     def move(self):
+        if self.movable:
+            self.xpos += self.xVelocity
+            self.ypos += self.yVelocity
+            if self.partner:
+                self.partner.changeVelocity(self.xVelocity, self.yVelocity)
+                self.partner.forceMove()
+    def forceMove(self):
         self.xpos += self.xVelocity
         self.ypos += self.yVelocity
-        if self.partner:
-            self.partner.changeVelocity(self.xVelocity, self.yVelocity)
-            self.partner.move()
 
     #Straight up just changes the velocity
     def changeVelocity(self, xV, yV):
@@ -52,3 +56,38 @@ class Particle:
     #sets the partner Particle for this Particle
     def setPartner(self, partner):
         self.partner = partner
+    def isColliding(self, corners):
+        x1 = self.xpos
+        y1 = self.ypos
+        w1 = self.radius
+        h1 = self.radius
+
+        #foriegn object
+        x2 = corners[0]
+        y2 = corners[1]
+        w2 = corners[2]
+        h2 = corners[3]
+
+        #Collision occuring on this object's left side
+        if (x2 + w2 >= x1 >= x2 and y2 + h2 >= y1 >= y2):
+
+            return True
+
+        #Collision occuring on this object's right side
+        elif (x2 + w2 >= x1 + w1 >= x2 and y2 + h2 >= y1 >= y2):
+
+            return True
+
+        #Collision occuring on this object's top side
+        elif (x2 + w2 >= x1 >= x2 and y2 + h2 >= y1 + h1 >= y2):
+
+            return True
+
+        #Collision occuring on this object's bottom side
+        elif (x2 + w2 >= x1 + w1 >= x2 and y2 + h2 >= y1 + h1 >= y2):
+
+            return True
+
+        else:
+
+            return False

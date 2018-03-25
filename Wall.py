@@ -13,7 +13,11 @@ class Wall:
         self.height = height
         self.movable = False
         self.isWall = True
-
+        self.xVelocity=0
+        self.yVelocity=0
+    def move(self):
+        return
+        #what is move, i am wall
     def getCollider(self):
         return (self.xpos, self.ypos, self.width, self.height)
     def changeVelocity(self,x,y):

@@ -31,9 +31,9 @@ bottomWall = Wall.Wall(0, 580, 800, 20)
 
 
 #Defines the objects that the Player character cannot pass through
-walls = [leftWall, rightWall, topWall, bottomWall]
-collidableObjects = [particle1, particle2, leftWall, rightWall, topWall, bottomWall]
-particles = [particle1, particle2]
+
+entities = [player,particle1, particle2, leftWall, rightWall, topWall, bottomWall]
+particles=[particle1,particle2]
 
 
 gameExit = False
@@ -68,43 +68,40 @@ while not gameExit:
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 player.left()
     #end for loop
-    player.move()
 
-    for particle in particles:
-        for wall in walls:
-             if(wall.isColliding(particle.getCollider())):
-                print("wall")
-                player.changeVelocity(-player.xVelocity * 2, -player.yVelocity * 2)
-                particle.changeVelocity(player.xVelocity, player.yVelocity)
-
-                for i in range(5):
-                    player.move()
-                    particle.move()
-                # end for
-
-                player.changeVelocity(-player.xVelocity / 2, -player.yVelocity / 2)
-                particle.changeVelocity(-player.xVelocity, -player.yVelocity)
-        # end for
-    # end for
-
+    playerxvel=player.xVelocity
+    playeryvel=player.yVelocity
     #Behavior for when a player collides with a non-wall object
-    for object in collidableObjects:
+    for e1 in range(len(entities)):
+        e2=e1+1
+        while e2<len(entities):
+            if(entities[e1].isColliding(entities[e2].getCollider())):
+                e1xv=entities[e1].xVelocity
+                e1yv=entities[e1].yVelocity
+                e2xv = entities[e2].xVelocity
+                e2yv = entities[e2].yVelocity
+                xvel=e1xv+e2xv
+                yvel=e1yv+e2yv
+                entities[e1].changeVelocity(-xvel*10, -yvel*10)
+                entities[e2].changeVelocity(xvel*10, yvel*10)
 
-        #If the player collides with a movable object
-        if(player.isColliding(object.getCollider()) and object.movable):
-            object.changeVelocity(player.xVelocity, player.yVelocity)
-            object.move()
 
-        #If the collidable object is not movable, the player attempts to move, but the collidable
-        #object will not move
-        elif(player.isColliding(object.getCollider())):
-            player.changeVelocity(-player.xVelocity, -player.yVelocity)
-            player.move()
-            player.changeVelocity(-player.xVelocity, -player.yVelocity)
-        else:
-            object.changeVelocity(0, 0)
-        #end inner for loop
-     #end outer for loop
+
+
+
+
+
+
+
+            e2 += 1
+
+    for entity in range(0,len(entities)):
+        entities[entity].move()
+    player.changeVelocity(playerxvel,playeryvel)
+    for particle in particles:
+        particle.changeVelocity(0,0)
+
+
 
 
     #When the goal and target Particle have collided, the player has passed the level
@@ -113,7 +110,6 @@ while not gameExit:
         font = pygame.font.SysFont("comicsansms", 72)
         text = font.render("Win", True, (0, 128, 0))
         gameDisplay.blit(text, (320 - text.get_width() // 2, 240 - text.get_height() // 2))
-
     #render any changes to the display
     goal.draw(gameDisplay)
     player.draw(gameDisplay)
