@@ -1,7 +1,6 @@
 from SceneBase import SceneBase
 from GameScene import GameScene
 import pygame, os
-from LevelTwo import LevelTwo
 
 #define colors using RGB values
 BLACK = (  0,   0,   0)
@@ -11,7 +10,6 @@ RED =   (255,   0,   0)
 GREEN = (  0, 255,   0)
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
-
 
 
 
@@ -72,7 +70,7 @@ class TitleScene(SceneBase):
         font = pygame.font.SysFont("arial", 72)
         text = font.render("A Strange Charm", True, (0, 128, 0))
         screen.blit(text, (320 - text.get_width() // 2, 240 - text.get_height() // 2))
-        text2 = font.render("Press Enter", True, (20, 20, 20))
+        text2 = font.render("Press Enter", True, (40, 40, 40))
         screen.blit(text2, (800 - text2.get_width() - 5, 600 - text2.get_height()))
 
 run_game(800, 600, 60, TitleScene())
